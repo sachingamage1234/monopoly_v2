@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 
 #include "game.h"
 #include "types.h"
@@ -106,68 +106,32 @@ void sort_players(player players[], int size){
 
 int buy_property(player *player, property *property, int auction_price){
     if(auction_price == 0){
-            if(player->vault > property->purchace_price){
-                player->vault -= property->purchace_price;
-                property->owner.player = player;
-                property->owned = 1;
-                printf("Purchased a property\n");
-                return 1;
-            }
-            else
-            {
-                printf("SalliMadi\n");
-                return 0;
-            }
+        if(player->vault > property->purchace_price){
+            player->vault -= property->purchace_price;
+            property->owner.player = player;
+            property->owned = 1;
+            printf("Purchased a property\n");
+            return 1;
         }
-}
-
-
-int start_auction(property *property, player players[]){
-    int starting_bidding_value = property->purchace_price;
-
-    while(1){
-        int bid_refusal_times;
-
-        for(int i = 0; i<4; i++){
-            if(strcmp(players[i].name, "Aggresive Invester") == 0){
-                //Check if the player buys the property
-                if(aggresive_trader_decision(&players[i], &(board[players[i].position])) == 1){
-                    return 0;
-                }
-                else{
-                    bid_refusal_times++;
-                }
-                
-            }
-            else if(strcmp(players[i].name, "Conservative Banker") == 0){
-                if(conservative_banker_decision(&players[i], &(board[players[i].position])) == 1){
-                    return 0;
-                }
-                else{
-                    bid_refusal_times++;
-                }
-            }
-            else if(strcmp(players[i].name, "Risk Taker") == 0){
-                if(risk_taker_decision(&players[i], &(board[players[i].position])) == 1){
-                    return 0;
-                }
-                else{
-                    bid_refusal_times++;
-                }
-            }
-            else{
-                if(opportunistic_trader_decision(&players[i], &(board[players[i].position])) == 1){
-                    return 0;
-                }
-                else{
-                    bid_refusal_times++;
-                }
-            }
-
-            if(bid_refusal_times == 4){
-                printf("No one bought the property\n");
-                return 0;
-            }
+        else
+        {
+            printf("SalliMadi\n");
+            return 0;
         }
     }
+}
+
+int pay_rent(player *player, property *property){
+    if(!(property->mortaged)){
+        int rent = property->base_rental;
+        player->vault -= rent;
+        property->owner.player->vault += rent;
+        printf("Rent ekk gewwa\n");
+        return 0;
+    }
+    else{
+        printf("No need to pay the rent because the property is mortaged\n");
+        return 1;
+    }
+    
 }

@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "types.h"
+#include "game.h"
 
 //Initialize players 
 player players[4] = {
@@ -12,31 +13,45 @@ player players[4] = {
     {"Opportunistic Trader", 1000, 0, 0, 8}
 };
 
+
+//prioratize purchasing properties
 int aggresive_trader_decision(player *player, cell *cell){
 
     printf("Aggresive Trader decision!\n");
 
-    //Fiest Priority to property buying
+    //First Priority to property buying
     //Have to implement more
     if(strcmp(cell->type, "Property") == 0){
         if(!(cell->ptr.property->owned)){
-            if(player->vault > cell->ptr.property->purchace_price){
-                player->vault -= cell->ptr.property->purchace_price;
-                cell->ptr.property->owner.player = player;
-                cell->ptr.property->owned = 1;
-                printf("Purchased a property\n");
-                return 1;
-            }
-            else
-            {
-                start_auction(&cell->ptr.property, players);
-                return 0;
-            }
-            printf("Aithikarayek innawalu\n");
+            buy_property(player, cell->ptr.property, 0);
         }
+        else{
+            pay_rent(player, cell->ptr.property);
+        }
+
+    }else if (strcmp(cell->type, "Insurance") == 0) {
+    // Code for Insurance cell
+    } 
+    else if (strcmp(cell->type, "Tax") == 0) {
+        // Code for Tax cell
+    } 
+    else if (strcmp(cell->type, "Bank") == 0) {
+    // Code for Insurance cell
+    } 
+    else if (strcmp(cell->type, "Event") == 0) {
+        // Code for Tax cell
+    } 
+    else if (strcmp(cell->type, "Utility") == 0) {
+        // Code for Jail cell
     }
-    else{
-         printf("Property ekk nemei kiyala kiyanawa\n");
+    else if (strcmp(cell->type, "Insurance") == 0) {
+    // Code for Insurance cell
+    } 
+    else if (strcmp(cell->type, "Railway") == 0) {
+        // Code for Tax cell
+    } 
+    else if (strcmp(cell->type, "Special") == 0) {
+        // Code for Jail cell
     }
 }
 
@@ -47,20 +62,42 @@ int conservative_banker_decision(player *player, cell *cell){
     if(strcmp(cell->type, "Property") == 0){
         if(!(cell->ptr.property->owned)){
             if(player->vault - cell->ptr.property->purchace_price >= player->vault / 2){
-                player->vault -= cell->ptr.property->purchace_price;
-                cell->ptr.property->owner.player = player;
-                cell->ptr.property->owned = 1;
-                printf("Purchased a property\n");
+                buy_property(player, cell->ptr.property, 0);
+                printf("Property ekk gatta\n");
             }
             else
             {
                 printf("SalliMadi\n");
             }
         }
-        printf("Aithikarayek innawalu\n");
+        else{
+            pay_rent(player, cell->ptr.property);
+        }
     }
-    else{
-         printf("Property ekk nemei kiyala kiyanawa\n");
+
+    else if (strcmp(cell->type, "Insurance") == 0) {
+    // Code for Insurance cell
+    } 
+    else if (strcmp(cell->type, "Tax") == 0) {
+        // Code for Tax cell
+    } 
+    else if (strcmp(cell->type, "Bank") == 0) {
+    // Code for Insurance cell
+    } 
+    else if (strcmp(cell->type, "Event") == 0) {
+        // Code for Tax cell
+    } 
+    else if (strcmp(cell->type, "Utility") == 0) {
+        // Code for Jail cell
+    }
+    else if (strcmp(cell->type, "Insurance") == 0) {
+    // Code for Insurance cell
+    } 
+    else if (strcmp(cell->type, "Railway") == 0) {
+        // Code for Tax cell
+    } 
+    else if (strcmp(cell->type, "Special") == 0) {
+        // Code for Jail cell
     }
 }
 
@@ -71,9 +108,35 @@ int risk_taker_decision(player *player, cell *cell){
         if(!(cell->ptr.property->owned)){
             return buy_property(player, cell->ptr.property, 0);
         }
+        else{
+            pay_rent(player, cell->ptr.property);
+            return 0;
+        }
     }
-    else{
-         printf("Property ekk nemei kiyala kiyanawa\n");
+    
+    else if (strcmp(cell->type, "Insurance") == 0) {
+    // Code for Insurance cell
+    } 
+    else if (strcmp(cell->type, "Tax") == 0) {
+        // Code for Tax cell
+    } 
+    else if (strcmp(cell->type, "Bank") == 0) {
+    // Code for Insurance cell
+    } 
+    else if (strcmp(cell->type, "Event") == 0) {
+        // Code for Tax cell
+    } 
+    else if (strcmp(cell->type, "Utility") == 0) {
+        // Code for Jail cell
+    }
+    else if (strcmp(cell->type, "Insurance") == 0) {
+    // Code for Insurance cell
+    } 
+    else if (strcmp(cell->type, "Railway") == 0) {
+        // Code for Tax cell
+    } 
+    else if (strcmp(cell->type, "Special") == 0) {
+        // Code for Jail cell
     }
 }
 
