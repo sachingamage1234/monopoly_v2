@@ -8,6 +8,7 @@ typedef struct{
         int no_of_loans;
         int dice_value;
         int position;
+        int jailed;
     }player;
 
 typedef struct{
@@ -63,11 +64,18 @@ typedef struct{
         int insuaranced;
     }utility;
 
+typedef struct{
+    char name[50];
+}special;
 
 typedef struct{
         union {
             property *property;
             bank *bank;
+            insuarance *insuarance;
+            utility *utility;
+            railway *railway;
+            special *special;
         } ptr;
         char type[50];
         char name[400];

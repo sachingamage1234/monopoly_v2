@@ -51,8 +51,12 @@ int aggresive_trader_decision(player *player, cell *cell){
         // Code for Tax cell
     } 
     else if (strcmp(cell->type, "Special") == 0) {
-        // Code for Jail cell
+        if(strcmp(cell -> ptr.special -> name,"Go To Jail") == 0){
+            player->position = 10;
+            player->jailed = 1;
+        }
     }
+    
 }
 
 
@@ -97,7 +101,10 @@ int conservative_banker_decision(player *player, cell *cell){
         // Code for Tax cell
     } 
     else if (strcmp(cell->type, "Special") == 0) {
-        // Code for Jail cell
+        if(strcmp(cell -> ptr.special -> name,"Go To Jail") == 0){
+            player->position = 10;
+            player->jailed = 1;
+        }
     }
 }
 
@@ -113,7 +120,7 @@ int risk_taker_decision(player *player, cell *cell){
             return 0;
         }
     }
-    
+
     else if (strcmp(cell->type, "Insurance") == 0) {
     // Code for Insurance cell
     } 
@@ -121,7 +128,7 @@ int risk_taker_decision(player *player, cell *cell){
         // Code for Tax cell
     } 
     else if (strcmp(cell->type, "Bank") == 0) {
-    // Code for Insurance cell
+        printf("Prrioratize getting loan\n");
     } 
     else if (strcmp(cell->type, "Event") == 0) {
         // Code for Tax cell
@@ -136,7 +143,10 @@ int risk_taker_decision(player *player, cell *cell){
         // Code for Tax cell
     } 
     else if (strcmp(cell->type, "Special") == 0) {
-        // Code for Jail cell
+        if(strcmp(cell -> ptr.special -> name,"Go To Jail") == 0){
+            player->position = 10;
+            player->jailed = 1;
+        }
     }
 }
 

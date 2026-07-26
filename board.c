@@ -443,7 +443,8 @@ cell board[40] = {
 
 //move players
 int move_player(player* player, int steps){
-    if(player -> position + steps > 39){
+    if(!player->jailed){
+        if(player -> position + steps > 39){
         player -> vault += 3000;
         player -> position = (player -> position + steps) - 40;
 
@@ -452,9 +453,15 @@ int move_player(player* player, int steps){
         printf("Current Balance: %d \n", player -> vault);
 
         return player -> position;
+        }
+        else{
+            player -> position += steps;
+            return player -> position;
+        }
     }
     else{
-         player -> position += steps;
-         return player -> position;
+        printf("Player is in the jail, can't move\n");
+        return 0;
     }
+    
 }
