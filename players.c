@@ -59,7 +59,7 @@ int aggresive_trader_decision(player *player, cell *cell, int auction_price){
     //Have to implement more
     if(strcmp(cell->type, "Property") == 0){
         if(!(cell->ptr.property->owned)){
-            buy_property(player, cell->ptr.property, 0);
+            buy_property(player, cell->ptr.property, 0, 1);
         }
         else{
 
@@ -110,7 +110,7 @@ int conservative_banker_decision(player *player, cell *cell){
     if(strcmp(cell->type, "Property") == 0){
         if(!(cell->ptr.property->owned)){
             if(player->vault - cell->ptr.property->purchace_price >= player->vault / 2){
-                buy_property(player, cell->ptr.property, 0);
+                buy_property(player, cell->ptr.property, 0, 1);
                 printf("Property ekk gatta\n");
             }
             else
@@ -164,7 +164,7 @@ int risk_taker_decision(player *player, cell *cell){
 
     if(strcmp(cell->type, "Property") == 0){
         if(!(cell->ptr.property->owned)){
-            return buy_property(player, cell->ptr.property, 0);
+            return buy_property(player, cell->ptr.property, 0, 1);
         }
         else{
 

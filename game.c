@@ -124,7 +124,7 @@ void add_color_group(player *player, property *property){
     }
 }
 
-int buy_property(player *player, property *property, int auction_price){
+int buy_property(player *player, property *property, int auction_price, int just_looking){
     if(auction_price == 0){
         if(player->vault > property->purchace_price){
             player->vault -= property->purchace_price;
@@ -144,14 +144,25 @@ int buy_property(player *player, property *property, int auction_price){
         }
     }
     else{
-        if(player->vault > auction_price + 250){
-            return 1;
+        if(just_looking){
+            if(player->vault >= auction_price + 250){
+                return 1;
+            }
+            else{
+                return 0;
+            }
         }
         else{
-            return 0;
+            player->vault -= auction_price;
+            property->owner.player = player;
+            add_color_group(player, property);
+            property->owned = 1;
+            add_property_to_list(player, property);
+            printf("Purchased a property\n");
+            }
         }
+        
     }
-}
 
 int pay_rent(player *player, property *property){
     if(!(property->mortaged)){
@@ -210,8 +221,9 @@ int bid(property *property){
         for(int i=0; i < sizeof(players)/sizeof(players[0]); i++){
 
             if(strcmp(players[i].name,"Aggresive Invester") == 0){
-                if(buy_property(&players[i], property, current_top_bid) == 1){
+                if(buy_property(&players[i], property, current_top_bid, 1) == 1){
                     bid_finished=1;
+                    buy_property(&players[i], property, current_top_bid, 0);
                     printf("Aggresive Invester has won the auction\n");
                 }
                 else{
@@ -221,7 +233,8 @@ int bid(property *property){
 
             else if(strcmp(players[i].name,"Conservative Banker") == 0){
                 if(players[i].vault - property->purchace_price >= players[i].vault / 2){
-                    if(buy_property(&players[i], property, current_top_bid)){
+                    if(buy_property(&players[i], property, current_top_bid, 1)){
+                        buy_property(&players[i], property, current_top_bid, 0);
                         bid_finished = 1;
                         printf("Conservative Banker has won the auction\n");
                     }
@@ -231,7 +244,8 @@ int bid(property *property){
             }
             }
             else if(strcmp(players[i].name,"Risk Taker") == 0){
-                if(buy_property(&players[i], property, current_top_bid) == 1){
+                if(buy_property(&players[i], property, current_top_bid, 1) == 1){
+                    buy_property(&players[i], property, current_top_bid, 0);
                     bid_finished = 1;
                     printf("Risk Taker has won the auction\n");
                 }
@@ -240,7 +254,8 @@ int bid(property *property){
                 }
             }
             else{
-                if(buy_property(&players[i], property, current_top_bid) == 1){
+                if(buy_property(&players[i], property, current_top_bid, 1) == 1){
+                    buy_property(&players[i], property, current_top_bid, 0);
                     bid_finished = 1;
                     printf("Opportunistic Trader has won the auction\n");
                 }
