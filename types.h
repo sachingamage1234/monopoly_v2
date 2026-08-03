@@ -1,23 +1,17 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-typedef struct{
-        char* name;
-        int vault;
-        int bankrupt;
-        int no_of_loans;
-        int dice_value;
-        int position;
-        int jailed;
-    }player;
+typedef struct player player;
+typedef struct property  property;
+typedef struct bank bank;
+typedef struct color_groups color_groups;
 
-typedef struct{
-        char* name;
-        char* options; // options -> 1. obtain a loan, 2 repay a existing loan, 3 refinance a existing loan, 4 increase loan amount 5 repay loan in full
-    }bank;
+struct color_groups{
+    char color[10];
+    int no_of_properties;
+};
 
-
-typedef struct{
+struct property{
         char name[300];
         char color[40];
         int purchace_price;
@@ -34,12 +28,32 @@ typedef struct{
         int insuaranced;
         int no_of_buildings;
         /// complete
-    }property;
+};
+
+struct player{
+        char* name;
+        int vault;
+        int bankrupt;
+        int no_of_loans;
+        int dice_value;
+        color_groups player_color_list[8];
+        int position;
+        int jailed;
+        int no_of_properties;
+        property *properties[22];
+};
+
+struct bank{
+        char* name;
+        char* options; // options -> 1. obtain a loan, 2 repay a existing loan, 3 refinance a existing loan, 4 increase loan amount 5 repay loan in full
+};
+
 
 typedef struct{
         char* name;
         int purchace_price;
         int mortage_value;
+        int owned;
         player* owner;
         int mortaged;
         int insuaranced;
@@ -59,6 +73,7 @@ typedef struct{
         char* rental;  // one utility, rent -> 4 times the dice roll, two utilities, rent -> 10 times the dice roll
         int purchace_price;
         int mortage_value;
+        int owned;
         player* owner;
         int mortaged;
         int insuaranced;

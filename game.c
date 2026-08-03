@@ -104,18 +104,50 @@ void sort_players(player players[], int size){
 
 }
 
+int add_property_to_list(player* player, property *property){
+    if(player->no_of_properties > 10){
+        printf("Trying to buy an invalid property\n");
+        return 0;
+    }
+
+    player->properties[player->no_of_properties] = property;
+
+    printf("Added the property to the list successfully\n");
+    return 1;
+}
+
+void add_color_group(player *player, property *property){
+    for(int i=0; i < 8; i++){
+        if(strcmp(property->color, player->player_color_list[i].color) == 0){
+            player->player_color_list[i].no_of_properties += 1;
+        }
+    }
+}
+
 int buy_property(player *player, property *property, int auction_price){
     if(auction_price == 0){
         if(player->vault > property->purchace_price){
             player->vault -= property->purchace_price;
             property->owner.player = player;
             property->owned = 1;
+
+            add_property_to_list(player, property);
+            add_color_group(player, property);
+
             printf("Purchased a property\n");
             return 1;
         }
         else
         {
             printf("SalliMadi\n");
+            return 0;
+        }
+    }
+    else{
+        if(player->vault > auction_price + 250){
+            return 1;
+        }
+        else{
             return 0;
         }
     }
@@ -134,4 +166,93 @@ int pay_rent(player *player, property *property){
         return 1;
     }
     
+}
+
+int pay_income_tax(player *player){
+    int total_property_value = 0;
+
+    for(int i = 0; i < player->no_of_properties; i++){
+        total_property_value += player->properties[i]->purchace_price;
+    }
+
+    //Since the data type of the players vault is int the final answer will also be int
+    player->vault -= total_property_value * income_tax_rate;
+    printf("Payed income tax of %f\n", total_property_value);
+
+}
+int check_monopoly(player *player){
+    for(int i = 0; i < 8 ; i++){
+        if(player->player_color_list[i].no_of_properties == color_list[i].no_of_properties){
+            printf("Player %s has a monopoly in the color of %s\n", player->name, color_list[i].color);
+        }
+    }
+}
+
+
+int build_houses(player *player, property *property){
+    player->vault -= property->house_construction_cost;
+    property -> no_of_buildings += 1;
+    printf("Built a house");
+}
+
+int bid(property *property){
+    int bid_finished = 0;
+
+    printf("Bidding Started fo the property %s\n", property->name);
+
+    player top_bidder;
+
+    while(!bid_finished){
+
+        int bid_refusals = 0;
+        int current_top_bid = 0;
+
+        for(int i=0; i < sizeof(players)/sizeof(players[0]); i++){
+
+            if(strcmp(players[i].name,"Aggresive Invester") == 0){
+                if(buy_property(&players[i], property, current_top_bid) == 1){
+                    bid_finished=1;
+                    printf("Aggresive Invester has won the auction\n");
+                }
+                else{
+                    bid_refusals++;
+                }
+            }
+
+            else if(strcmp(players[i].name,"Conservative Banker") == 0){
+                if(players[i].vault - property->purchace_price >= players[i].vault / 2){
+                    if(buy_property(&players[i], property, current_top_bid)){
+                        bid_finished = 1;
+                        printf("Conservative Banker has won the auction\n");
+                    }
+                    else{
+                        bid_refusals++;
+                    }
+            }
+            }
+            else if(strcmp(players[i].name,"Risk Taker") == 0){
+                if(buy_property(&players[i], property, current_top_bid) == 1){
+                    bid_finished = 1;
+                    printf("Risk Taker has won the auction\n");
+                }
+                else{
+                    bid_refusals++;
+                }
+            }
+            else{
+                if(buy_property(&players[i], property, current_top_bid) == 1){
+                    bid_finished = 1;
+                    printf("Opportunistic Trader has won the auction\n");
+                }
+                else{
+                    bid_refusals++;
+                }
+            }
+        }
+
+        if(bid_refusals == 4){
+            bid_finished = 1;
+            printf("No one got the property\n");
+        }
+    }
 }

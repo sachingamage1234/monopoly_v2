@@ -31,32 +31,36 @@ int main(){
 
         printf("\n");
 
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 10; i++){
 
-            //roll the dice and move the player
-            players[i].dice_value = dice_roll();
+            for(int j = 0; j < 4; j++){
 
-            printf("%s rolled %d \n", players[i].name, players[i].dice_value);
+                //roll the dice and move the player
+            players[j].dice_value = dice_roll();
 
-            int old_position = players[i].position;
-            move_player(&players[i], players[i].dice_value);
-            printf("%s moves from Square %d to Square %d \n", players[i].name, old_position, players[i].position);
+            printf("%s rolled %d \n", players[j].name, players[j].dice_value);
 
-            if(strcmp(players[i].name, "Aggresive Invester") == 0){
-                aggresive_trader_decision(&players[i], &(board[players[i].position]));
+            int old_position = players[j].position;
+            move_player(&players[j], players[j].dice_value);
+            printf("%s moves from Square %d to Square %d \n", players[j].name, old_position, players[j].position);
+
+            if(strcmp(players[j].name, "Aggresive Invester") == 0){
+                aggresive_trader_decision(&players[j], &(board[players[j].position]));
                 printf("\n\n");
             }
-            else if(strcmp(players[i].name, "Conservative Banker") == 0){
-                conservative_banker_decision(&players[i], &(board[players[i].position]));
+            else if(strcmp(players[j].name, "Conservative Banker") == 0){
+                conservative_banker_decision(&players[j], &(board[players[j].position]));
                 printf("\n\n");
             }
-            else if(strcmp(players[i].name, "Risk Taker") == 0){
-                risk_taker_decision(&players[i], &(board[players[i].position]));
+            else if(strcmp(players[j].name, "Risk Taker") == 0){
+                risk_taker_decision(&players[j], &(board[players[j].position]));
                 printf("\n\n");
             }
             else{
-                opportunistic_trader_decision(&players[i], &(board[players[i].position]));
+                opportunistic_trader_decision(&players[j], &(board[players[j].position]));
                 printf("\n\n");
+            }
+
             }
         }
      

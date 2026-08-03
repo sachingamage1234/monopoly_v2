@@ -3,13 +3,15 @@
 #include "types.h"
 #include "board.h"
 
+float income_tax_rate = 0.15;
+
 // Group 1: Brown
 property pettah = {
     .name = "Pettah",
     .color = "Brown",
     .purchace_price = 1,
     .mortage_value = 1250,
-    .base_rental = 500,
+    .base_rental = 100,
     .house_construction_cost = 750,
     .hotel_construction_cost = 750,
     .owned = 0,
@@ -319,6 +321,100 @@ property galle_face = {
     .no_of_buildings = 0
 };
 
+
+color_groups color_list[8] = {
+    {"Brown", 2},
+    {"LightBlue", 3},
+    {"Pink", 3},
+    {"Orange", 3},
+    {"Red", 3},
+    {"Yellow", 3},
+    {"Green", 3},
+    {"DarkBlue", 2}
+};
+
+// 1. Bank Instance
+bank bank_of_ceylon = {
+    .name = "Bank of Ceylon",
+    .options = "1. Obtain a loan\n2. Repay an existing loan\n3. Refinance an existing loan\n4. Increase loan amount\n5. Repay loan in full"
+};
+
+// 2. Railway Instances (4 Stations)
+railway fort_railway = {
+    .name = "Colombo Fort Railway Station",
+    .purchace_price = 200,
+    .mortage_value = 100,
+    .owned = 0,
+    .owner = NULL,
+    .mortaged = 0,
+    .insuaranced = 0
+};
+
+railway kandy_railway = {
+    .name = "Kandy Railway Station",
+    .purchace_price = 200,
+    .mortage_value = 100,
+    .owner = NULL,
+    .mortaged = 0,
+    .insuaranced = 0
+};
+
+railway galle_railway = {
+    .name = "Galle Railway Station",
+    .purchace_price = 200,
+    .mortage_value = 100,
+    .owner = NULL,
+    .mortaged = 0,
+    .insuaranced = 0
+};
+
+railway jaffna_railway = {
+    .name = "Jaffna Railway Station",
+    .purchace_price = 200,
+    .mortage_value = 100,
+    .owner = NULL,
+    .mortaged = 0,
+    .insuaranced = 0
+};
+
+// 3. Insurance Instances
+insuarance sl_insurance = {
+    .name = "Sri Lanka Insurance",
+    .no_of_rounds = 0,
+    .max_no_of_rounds = 3,
+    .policy = "Standard Protection Plan"
+};
+
+insuarance ceylinco_insurance = {
+    .name = "Ceylinco Insurance",
+    .no_of_rounds = 0,
+    .max_no_of_rounds = 3,
+    .policy = "Comprehensive Protection Plan"
+};
+
+// 4. Utility Instances (CEB and NWSDB)
+utility ceylon_electricity_board = {
+    .name = "Ceylon Electricity Board",
+    .rental = "1 Utility owned: Rent = 4x dice roll | 2 Utilities owned: Rent = 10x dice roll",
+    .purchace_price = 150,
+    .mortage_value = 75,
+    .owned = 0,
+    .owner = NULL,
+    .mortaged = 0,
+    .insuaranced = 0
+};
+
+utility water_board = {
+    .name = "National Water Supply and Drainage Board",
+    .rental = "1 Utility owned: Rent = 4x dice roll | 2 Utilities owned: Rent = 10x dice roll",
+    .purchace_price = 150,
+    .mortage_value = 75,
+    .owned = 0,
+    .owner = NULL,
+    .mortaged = 0,
+    .insuaranced = 0
+};
+
 cell board[40] = {
     // 0: Start
     [0]  = { .name = "GO", .type = "Start", .ptr.property = NULL },
@@ -336,7 +432,7 @@ cell board[40] = {
     [4]  = { .name = "Income Tax", .type = "Tax", .ptr.property = NULL },
     
     // 5: Railway
-    [5]  = { .name = "Colombo Fort Railway Station", .type = "Railway", .ptr.property = NULL },
+    [5]  = { .name = "Colombo Fort Railway Station", .type = "Railway", .ptr.railway = &fort_railway},
     
     // 6: Light Blue Property
     [6]  = { .name = "Bambalapitiya", .type = "Property", .ptr.property = &bambalapitiya },
@@ -357,7 +453,7 @@ cell board[40] = {
     [11] = { .name = "Nugegoda", .type = "Property", .ptr.property = &nugegoda },
     
     // 12: Utility
-    [12] = { .name = "Ceylon Electricity Board", .type = "Utility", .ptr.property = NULL },
+    [12] = { .name = "Ceylon Electricity Board", .type = "Utility", .ptr.utility = &ceylon_electricity_board},
     
     // 13: Pink Property
     [13] = { .name = "Maharagama", .type = "Property", .ptr.property = &maharagama },
@@ -366,7 +462,7 @@ cell board[40] = {
     [14] = { .name = "Kottawa", .type = "Property", .ptr.property = &kottawa },
     
     // 15: Railway
-    [15] = { .name = "Kandy Railway Station", .type = "Railway", .ptr.property = NULL },
+    [15] = { .name = "Kandy Railway Station", .type = "Railway", .ptr.railway = &kandy_railway },
     
     // 16: Orange Property
     [16] = { .name = "Negombo", .type = "Property", .ptr.property = &negombo },
@@ -396,7 +492,7 @@ cell board[40] = {
     [24] = { .name = "Katugastota", .type = "Property", .ptr.property = &katugastota },
     
     // 25: Railway
-    [25] = { .name = "Galle Railway Station", .type = "Railway", .ptr.property = NULL },
+    [25] = { .name = "Galle Railway Station", .type = "Railway", .ptr.railway = &galle_railway },
     
     // 26: Yellow Property
     [26] = { .name = "Galle Fort", .type = "Property", .ptr.property = &galle_fort },
@@ -405,13 +501,13 @@ cell board[40] = {
     [27] = { .name = "Unawatuna", .type = "Property", .ptr.property = &unawatuna },
     
     // 28: Utility
-    [28] = { .name = "National Water Supply and Drainage Board", .type = "Utility", .ptr.property = NULL },
+    [28] = { .name = "National Water Supply and Drainage Board", .type = "Utility", .ptr.utility = &water_board },
     
     // 29: Yellow Property
     [29] = { .name = "Hikkaduwa", .type = "Property", .ptr.property = &hikkaduwa },
     
     // 30: Special
-    [30] = { .name = "Go To Jail", .type = "Special", .ptr.property = NULL },
+    [30] = { .name = "Go To Jail", .type = "Special", .ptr.special = NULL },
     
     // 31: Green Property
     [31] = { .name = "Jaffna Town", .type = "Property", .ptr.property = &jaffna_town },
@@ -426,7 +522,7 @@ cell board[40] = {
     [34] = { .name = "Trincomalee", .type = "Property", .ptr.property = &trincomalee },
     
     // 35: Railway
-    [35] = { .name = "Jaffna Railway Station", .type = "Railway", .ptr.property = NULL },
+    [35] = { .name = "Jaffna Railway Station", .type = "Railway", .ptr.railway = &jaffna_railway},
     
     // 36: Event
     [36] = { .name = "National Event Card", .type = "Event", .ptr.property = NULL },
