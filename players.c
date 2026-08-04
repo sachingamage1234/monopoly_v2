@@ -17,7 +17,7 @@ player players[4] = {
     {"Red", 0},
     {"Yellow", 0},
     {"Green", 0},
-    {"DarkBlue", 0}}},
+    {"DarkBlue", 0}}, .loan_round = -1},
 
     {"Conservative Banker", 1000, 0, 0, 6,
     {{"Brown", 0},
@@ -27,7 +27,7 @@ player players[4] = {
     {"Red", 0},
     {"Yellow", 0},
     {"Green", 0},
-    {"DarkBlue", 0}}},
+    {"DarkBlue", 0}}, .loan_round = -1},
 
     {"Risk Taker", 1000, 0, 0, 12,
     {{"Brown", 0},
@@ -37,7 +37,7 @@ player players[4] = {
     {"Red", 0},
     {"Yellow", 0},
     {"Green", 0},
-    {"DarkBlue", 0}}},
+    {"DarkBlue", 0}}, .loan_round = -1},
 
     {"Opportunistic Trader", 1000, 0, 0, 8,
     {{"Brown", 0},
@@ -47,7 +47,7 @@ player players[4] = {
     {"Red", 0},
     {"Yellow", 0},
     {"Green", 0},
-    {"DarkBlue", 0}}}
+    {"DarkBlue", 0}}, .loan_round = -1}
 };
 
 
@@ -69,9 +69,8 @@ int aggresive_trader_decision(player *player, cell *cell, int auction_price){
             {
                 printf("SalliMadi\n");
                 bid(cell->ptr.property);
-                
+                return 0;
             }
-            buy_property(player, cell->ptr.property, 0, 1);
         }
         else{
 
@@ -123,7 +122,7 @@ int conservative_banker_decision(player *player, cell *cell){
         if(!(cell->ptr.property->owned)){
             if(player->vault - cell->ptr.property->purchace_price >= player->vault / 2){
                 if(buy_property(player, cell->ptr.property, 0, 1)){
-                    return 1;
+                    return 1; 
                 }
                 else{
                     bid(cell->ptr.property);
@@ -213,10 +212,14 @@ int risk_taker_decision(player *player, cell *cell){
 
     if(strcmp(cell->type, "Property") == 0){
         if(!(cell->ptr.property->owned)){
-            if(buy_property(player, cell->ptr.property, 0, 1)){
-                return 1;
-            }else{
+            if(player->vault > cell->ptr.property->purchace_price){
+                buy_property(player, cell->ptr.property, 0, 1);
+                return 1; 
+            }
+            else{
+                printf("SalliMadi\n");
                 bid(cell->ptr.property);
+                return 0;
             }
         }
         else{
@@ -236,10 +239,40 @@ int risk_taker_decision(player *player, cell *cell){
     else if (strcmp(cell->type, "Tax") == 0) {
          pay_income_tax(player);
     } 
-    else if (strcmp(cell->type, "Bank") == 0) {
-        printf("Prrioratize getting loan\n");
-    } 
-    else if (strcmp(cell->type, "Event") == 0) {
+    else if (strcmp(cell->type, "Bank") == 0){
+        int loan_amount = 0;
+
+        if(player->no_of_loans == 0){
+
+            //Iterate over the board and chaeck whether it is a property, utility or a railway
+            //If it isowned by the player , add it to the loan amount
+            //Since the risk taker takes the maximum loan amount possible, take the loan to the full price
+            for(int i = 0; i < sizeof(player->properties) / sizeof(player->properties[1]); i++){
+                if(board[i].ptr.property->collateralized == 0){
+                    loan_amount += board[i].ptr.property->purchace_price;
+                    board[i].ptr.property->collateralized = 1;
+                }
+            }
+
+            for(int i = 0; i < sizeof(player->utilities) / sizeof(player->utilities[1]); i++){
+                if(board[i].ptr.utility->collateralized == 0 ){
+                    loan_amount += board[i].ptr.utility->purchace_price;
+                    board[i].ptr.utility->collateralized = 1;
+                }
+            }
+            
+            for(int i = 0; i < sizeof(player->railway) / sizeof(player->railway[1]); i++){
+                if(board[i].ptr.railway->collateralized == 0){
+                    loan_amount += board[i].ptr.railway->purchace_price;
+                    board[i].ptr.railway->collateralized = 1;
+                }
+            }
+              get_loan(player, loan_amount / 100 * 75);   
+        }else{
+            printf("Player %s has already taken a loan, can't take another loan\n", player->name);
+        }
+        }      
+    else if(strcmp(cell->type, "Event") == 0) {
         // Code for Tax cell
     } 
     else if (strcmp(cell->type, "Utility") == 0) {
@@ -258,32 +291,12 @@ int risk_taker_decision(player *player, cell *cell){
             printf("PLayer risk taker was jailed\n");
         }
     }
+
 }
 
 int opportunistic_trader_decision(player *player, cell* cell){
     printf("Opportunistic Trader decision!\n");
 
-    if(strcmp(cell->type, "Property") == 0){
-        if(!(cell->ptr.property->owned)){
-            if(buy_property(player, cell->ptr.property, 0, 1)){
-                return 1;
-            }else{
-                bid(cell->ptr.property);
-            }
-        }
-        else{
-
-            if(cell->ptr.property->owner.player == player){
-                build_houses(player, cell->ptr.property);
-                return 1;
-            }
-            pay_rent(player, cell->ptr.property);
-            return 0;
-        }
-    }
-
-    else if (strcmp(cell->type, "Insurance") == 0) {
-
     printf("Muu thama implement keranna amarui\n");
 }
-}
+

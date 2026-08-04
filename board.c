@@ -17,7 +17,8 @@ property pettah = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property maradana = {
@@ -31,7 +32,8 @@ property maradana = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 // Group 2: Light Blue
@@ -46,7 +48,8 @@ property bambalapitiya = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property wellawatte = {
@@ -60,7 +63,8 @@ property wellawatte = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property mount_lavinia = {
@@ -74,7 +78,8 @@ property mount_lavinia = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 // Group 3: Pink
@@ -89,7 +94,8 @@ property nugegoda = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property maharagama = {
@@ -103,7 +109,8 @@ property maharagama = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property kottawa = {
@@ -117,7 +124,8 @@ property kottawa = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 // Group 4: Orange
@@ -132,7 +140,8 @@ property negombo = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property katunayake = {
@@ -146,7 +155,8 @@ property katunayake = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property ja_ela = {
@@ -160,7 +170,8 @@ property ja_ela = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 // Group 5: Red
@@ -175,7 +186,8 @@ property kandy_city = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property peradeniya = {
@@ -189,7 +201,8 @@ property peradeniya = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property katugastota = {
@@ -203,7 +216,8 @@ property katugastota = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 // Group 6: Yellow
@@ -218,7 +232,8 @@ property galle_fort = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property unawatuna = {
@@ -232,7 +247,8 @@ property unawatuna = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property hikkaduwa = {
@@ -246,7 +262,8 @@ property hikkaduwa = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 // Group 7: Green
@@ -261,7 +278,8 @@ property jaffna_town = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property nallur = {
@@ -275,7 +293,8 @@ property nallur = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property trincomalee = {
@@ -289,7 +308,8 @@ property trincomalee = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 // Group 8: Dark Blue
@@ -304,7 +324,8 @@ property nuwara_eliya = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 property galle_face = {
@@ -318,7 +339,8 @@ property galle_face = {
     .owned = 0,
     .mortaged = 0,
     .insuaranced = 0,
-    .no_of_buildings = 0
+    .no_of_buildings = 0,
+    .collateralized = 0
 };
 
 
@@ -347,7 +369,8 @@ railway fort_railway = {
     .owned = 0,
     .owner = NULL,
     .mortaged = 0,
-    .insuaranced = 0
+    .insuaranced = 0,
+    .collateralized = 0
 };
 
 railway kandy_railway = {
@@ -356,7 +379,8 @@ railway kandy_railway = {
     .mortage_value = 100,
     .owner = NULL,
     .mortaged = 0,
-    .insuaranced = 0
+    .insuaranced = 0,
+    .collateralized = 0
 };
 
 railway galle_railway = {
@@ -365,7 +389,8 @@ railway galle_railway = {
     .mortage_value = 100,
     .owner = NULL,
     .mortaged = 0,
-    .insuaranced = 0
+    .insuaranced = 0,
+    .collateralized = 0
 };
 
 railway jaffna_railway = {
@@ -374,7 +399,8 @@ railway jaffna_railway = {
     .mortage_value = 100,
     .owner = NULL,
     .mortaged = 0,
-    .insuaranced = 0
+    .insuaranced = 0,
+    .collateralized = 0
 };
 
 // 3. Insurance Instances
@@ -401,7 +427,8 @@ utility ceylon_electricity_board = {
     .owned = 0,
     .owner = NULL,
     .mortaged = 0,
-    .insuaranced = 0
+    .insuaranced = 0,
+    .collateralized = 0
 };
 
 utility water_board = {
@@ -412,7 +439,8 @@ utility water_board = {
     .owned = 0,
     .owner = NULL,
     .mortaged = 0,
-    .insuaranced = 0
+    .insuaranced = 0,
+    .collateralized = 0
 };
 
 cell board[40] = {
@@ -547,6 +575,15 @@ int move_player(player* player, int steps){
         printf("\n %s passed GO \n", player -> name);
         printf("Collected Rs.2000\n");
         printf("Current Balance: %d \n", player -> vault);
+
+        //Increase the loan round when player passes GO
+        if(player->loan_round != -1){
+            player->loan_round += 1;
+        }
+
+        if(player->loan_round == 20){
+
+        }
 
         return player -> position;
         }

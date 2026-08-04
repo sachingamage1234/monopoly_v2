@@ -154,7 +154,7 @@ int buy_property(player *player, property *property, int auction_price, int just
         
     }
     else{
-        if(just_looking){
+        if(just_looking == 1){
             if(player->vault >= auction_price + 250){
                 return 1;
             }
@@ -162,13 +162,13 @@ int buy_property(player *player, property *property, int auction_price, int just
                 return 0;
             }
         }
-        else{
+        else if(just_looking == 0){
             player->vault -= auction_price;
             property->owner.player = player;
             add_color_group(player, property);
             property->owned = 1;
             add_property_to_list(player, property);
-            printf("%s purched %s for Rs.%d\n", player->name, property->name, property->purchace_price);
+            printf("%s purched %s for Rs.%d\n", player->name, property->name, auction_price);
             printf("Remaining balance: %d\n", player->vault);
             }
         }
@@ -241,19 +241,20 @@ int bid(property *property){
     printf("Bidding Started fo the property %s\n", property->name);
 
     player top_bidder;
+    int has_top_bidder = 0;
+    int current_top_bid = (property->purchace_price) / 100 * 50;
+
 
     while(!bid_finished){
 
         int bid_refusals = 0;
-        int current_top_bid = 0;
-
         for(int i=0; i < sizeof(players)/sizeof(players[0]); i++){
 
             if(strcmp(players[i].name,"Aggresive Invester") == 0){
-                if(buy_property(&players[i], property, current_top_bid, 1) == 1){
-                    bid_finished=1;
-                    buy_property(&players[i], property, current_top_bid, 0);
-                    printf("Aggresive Invester has won the auction\n");
+                if(players[i].vault >= current_top_bid + 1200 + 250 && current_top_bid <= (property->purchace_price / 100 * 120) - 250){
+                    top_bidder = players[i];
+                    current_top_bid += 250;
+                    printf("Aggresive Invester has placed a bid\n");
                 }
                 else{
                     bid_refusals++;
@@ -261,42 +262,59 @@ int bid(property *property){
             }
 
             else if(strcmp(players[i].name,"Conservative Banker") == 0){
-                if(players[i].vault - property->purchace_price >= players[i].vault / 2){
-                    if(buy_property(&players[i], property, current_top_bid, 1)){
-                        buy_property(&players[i], property, current_top_bid, 0);
-                        bid_finished = 1;
-                        printf("Conservative Banker has won the auction\n");
+                if(players[i].vault - current_top_bid - 250 >= players[i].vault / 2 && current_top_bid -250 <= property->purchace_price){
+                        top_bidder = players[i];
+                        current_top_bid += 250;
+                        printf("Conservative Banker has placed a bid\n");
                     }
-                    else{
-                        bid_refusals++;
-                    }
-            }
-            }
+                else{
+                    bid_refusals++;
+                }
+                }
+            
+
             else if(strcmp(players[i].name,"Risk Taker") == 0){
-                if(buy_property(&players[i], property, current_top_bid, 1) == 1){
-                    buy_property(&players[i], property, current_top_bid, 0);
-                    bid_finished = 1;
-                    printf("Risk Taker has won the auction\n");
+                if(players[i].vault >= current_top_bid + 250){
+                    top_bidder = players[i];
+                    current_top_bid += 250;
+                    printf("Risk Taker has placed a bid\n");
                 }
                 else{
                     bid_refusals++;
                 }
             }
-            else{
-                if(buy_property(&players[i], property, current_top_bid, 1) == 1){
-                    buy_property(&players[i], property, current_top_bid, 0);
-                    bid_finished = 1;
-                    printf("Opportunistic Trader has won the auction\n");
-                }
-                else{
+            
+            else if(strcmp(players[i].name,"Opportunistic Trader") == 0){
+                 if(current_top_bid >= property->purchace_price / 100 * 120 && current_top_bid < property->purchace_price ){
                     bid_refusals++;
                 }
+                else{
+                    top_bidder = players[i];
+                    current_top_bid += 250;
+                    printf("Opportunistic Trader has placed a bid\n");
+                }
             }
+
         }
 
-        if(bid_refusals == 4){
-            bid_finished = 1;
-            printf("No one got the property\n");
-        }
+        if(bid_refusals == 3){
+                bid_finished = 1;
+                buy_property(&top_bidder, property, current_top_bid, 0);
+            }
+            else if(bid_refusals == 4){
+                bid_finished = 1;
+                printf("No one got the property\n");
+            }
+            else{
+                printf("Current top bidder is %s with a bid of Rs.%d\n", top_bidder.name, current_top_bid);
+            }
     }
+}
+
+
+int get_loan(player *player, int loan_amount){
+    player->vault += loan_amount;
+    player->no_of_loans += 1;
+    printf("Player %s got a loan of Rs.%d\n", player->name, loan_amount);
+    printf("Current balance: Rs.%d\n", player->vault);
 }

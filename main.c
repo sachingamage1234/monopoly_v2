@@ -35,7 +35,7 @@ int main(){
 
             for(int j = 0; j < 4; j++){
 
-                //roll the dice and move the player
+            //roll the dice and move the player
             players[j].dice_value = dice_roll();
 
             printf("%s rolled %d \n", players[j].name, players[j].dice_value);

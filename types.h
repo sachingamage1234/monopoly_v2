@@ -5,6 +5,8 @@ typedef struct player player;
 typedef struct property  property;
 typedef struct bank bank;
 typedef struct color_groups color_groups;
+typedef struct utility utility;
+typedef struct railway railway;
 
 struct color_groups{
     char color[10];
@@ -25,6 +27,7 @@ struct property{
         }owner;
         int owned;
         int mortaged;
+        int collateralized;
         int insuaranced;
         int no_of_buildings;
         /// complete
@@ -39,10 +42,13 @@ struct player{
         color_groups player_color_list[8];
         int position;
         int jailed;
+        int loan_round;
         int no_of_utilities;
         int no_of_railways;
         int no_of_properties;
         property *properties[22];
+        utility *utilities[2];
+        railway *railway[2];
 };
 
 struct bank{
@@ -50,8 +56,7 @@ struct bank{
         char* options; // options -> 1. obtain a loan, 2 repay a existing loan, 3 refinance a existing loan, 4 increase loan amount 5 repay loan in full
 };
 
-
-typedef struct{
+struct railway{
         char* name;
         int purchace_price;
         int mortage_value;
@@ -59,7 +64,8 @@ typedef struct{
         player* owner;
         int mortaged;
         int insuaranced;
-    }railway;
+        int collateralized;
+    };
 
 
 typedef struct{
@@ -70,7 +76,7 @@ typedef struct{
 
     }insuarance;
 
-typedef struct{
+struct utility{
         char* name;
         char* rental;  // one utility, rent -> 4 times the dice roll, two utilities, rent -> 10 times the dice roll
         int purchace_price;
@@ -79,7 +85,8 @@ typedef struct{
         player* owner;
         int mortaged;
         int insuaranced;
-    }utility;
+        int collateralized;
+    };
 
 typedef struct{
     char name[50];
@@ -97,5 +104,13 @@ typedef struct{
         char type[50];
         char name[400];
     }cell;
+
+typedef enum{
+    Aggresive_Invester,
+    Conservative_Banker,
+    Risk_Taker,
+    Opportunistic_Trader
+}player_type;
+
 
 #endif
