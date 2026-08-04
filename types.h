@@ -39,6 +39,8 @@ struct player{
         color_groups player_color_list[8];
         int position;
         int jailed;
+        int no_of_utilities;
+        int no_of_railways;
         int no_of_properties;
         property *properties[22];
 };

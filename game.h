@@ -11,5 +11,9 @@ int pay_rent(player *player, property *property);
 int add_property_to_list(player* player, property *property);
 int pay_income_tax(player *player);
 int build_houses(player *player, property *property);
+int buy_utility(player *player, utility *utility);
+int buy_railway(player *player, railway *railway);
+int bid(property *property);
+int check_monopoly(player *player);
 
 #endif

@@ -39,70 +39,85 @@ void sort_players(player players[], int size){
    // }
 
 
-    //Finds the index of the maximum dice value
-    int max = 0;
-    int max_index = 0;
-    int max_counts = 0;
+   int max = 0;
+int max_index = 0;
+int max_count = 0;
+int max_value_positions[size]; // Use variable size to avoid out-of-bounds
 
+for(int i = 0; i < size; i++){
+    max_value_positions[i] = i; // Initialize positions
+    if(players[i].dice_value > max){
+        max = players[i].dice_value;
+    }
+}
+
+// Eliminate players who didn't reach the initial highest roll
+for(int i = 0; i < size; i++){
+    if(players[i].dice_value == max){
+        max_count++;
+    } else {
+        max_value_positions[i] = -1;
+    }
+}
+
+// If there was a tie, re-roll ONLY among tied candidates
+while(max_count > 1){
+    printf("\nTie detected! Re-rolling for tied players...\n");
+    
+    // Step 1: Re-roll for active candidates
     for(int i = 0; i < size; i++){
-        if(players[i].dice_value > max){
-            max = players[i].dice_value;
-            max_index = i;
+        if(max_value_positions[i] != -1){
+            players[i].dice_value = dice_roll();
+            printf("%s rerolled %d\n", players[i].name, players[i].dice_value);
         }
     }
 
-
-    //creae a new array of players and arrange it in the correct order
-    player ordered_players[size];
+    // Step 2: Find the new highest roll among active candidates
+    int temp_max = -1;
     for(int i = 0; i < size; i++){
-        if(i==0){
-            ordered_players[i] = players[max_index];
-        }
-        
-        if(max_index + i > size -1){
-            ordered_players[i] = players[(max_index + i) - size];
-        }
-        else{
-            ordered_players[i] = players[max_index + i];
-        }
-        
-    }
-
-    for(int i = 0; i < size-1; i++){
-        if(ordered_players[i].dice_value == max){
-            max_counts++;
+        if(max_value_positions[i] != -1 && players[i].dice_value > temp_max){
+            temp_max = players[i].dice_value;
         }
     }
 
-    printf("\n %s will start the game \n\n", players[0]);
-
-    //get the players with the same max
-    //COMPLETE THIS SHIT
-    player temp_maxes[max_counts];
-    if(max_counts > 1){
-        printf("\nThere is a tie between %d players with the same dice value of %d\n\n", max_counts+1, max);
-        for(int i = 0; i < size; i++){
-            if(ordered_players[i].dice_value == max){
-                temp_maxes[i] = ordered_players[i];
+    // Step 3: Eliminate candidates below temp_max and count remaining ties
+    max_count = 0;
+    for(int i = 0; i < size; i++){
+        if(max_value_positions[i] != -1){
+            if(players[i].dice_value == temp_max){
+                max_count++;
+            } else {
+                max_value_positions[i] = -1; // Eliminate
             }
         }
     }
-
-    
-
-    //copy the order from the second array to the original array
-    for(int i = 0; i < size; i++){
-        players[i] = ordered_players[i];
-    }
-
-    printf("Turn Order:\n");
-
-    for(int i = 0; i < size; i++){
-        printf("%s \n", players[i].name);
-        players[i].position = 0;
-    }
-
 }
+
+// Find the single winning index
+for(int i = 0; i < size; i++){
+    if(max_value_positions[i] != -1){
+        max_index = i;
+        break;
+    }
+}
+
+// Rotate players array so the winner goes first
+player sorted_players[size];
+for(int i = 0; i < size; i++){
+    sorted_players[i] = players[(max_index + i) % size];
+}    
+
+for(int i = 0; i < size; i++){
+    players[i] = sorted_players[i];
+}
+
+printf("\n\nThe order of the players is as follows:\n");
+for(int i = 0; i < size; i++){
+    printf("%d. %s\n", i+1, players[i].name);
+}
+}
+
+
 
 int add_property_to_list(player* player, property *property){
     if(player->no_of_properties > 10){
@@ -126,7 +141,6 @@ void add_color_group(player *player, property *property){
 
 int buy_property(player *player, property *property, int auction_price, int just_looking){
     if(auction_price == 0){
-        if(player->vault > property->purchace_price){
             player->vault -= property->purchace_price;
             property->owner.player = player;
             property->owned = 1;
@@ -134,14 +148,10 @@ int buy_property(player *player, property *property, int auction_price, int just
             add_property_to_list(player, property);
             add_color_group(player, property);
 
-            printf("Purchased a property\n");
+            printf("%s purched %s for Rs.%d\n", player->name, property->name, property->purchace_price);
+            printf("Remaining balance: %d\n", player->vault);
             return 1;
-        }
-        else
-        {
-            printf("SalliMadi\n");
-            return 0;
-        }
+        
     }
     else{
         if(just_looking){
@@ -158,18 +168,36 @@ int buy_property(player *player, property *property, int auction_price, int just
             add_color_group(player, property);
             property->owned = 1;
             add_property_to_list(player, property);
-            printf("Purchased a property\n");
+            printf("%s purched %s for Rs.%d\n", player->name, property->name, property->purchace_price);
+            printf("Remaining balance: %d\n", player->vault);
             }
         }
         
     }
+
+
+int buy_utility(player *player, utility *utility){
+    player->vault -= utility->purchace_price;
+    utility->owner = player;
+    utility->owned = 1;
+    player->no_of_utilities++;
+}
+
+int buy_railway(player *player, railway *railway){
+    player->vault -= railway->purchace_price;
+    railway->owner = player;
+    railway->owned = 1;
+    player->no_of_railways++;
+}
 
 int pay_rent(player *player, property *property){
     if(!(property->mortaged)){
         int rent = property->base_rental;
         player->vault -= rent;
         property->owner.player->vault += rent;
-        printf("Rent ekk gewwa\n");
+        printf("Player %s landed on %s\n", player->name, property->name);
+        printf("Rent payed: Rs.%d\n", rent);
+        printf("Owner: %s\n", property->owner.player->name);
         return 0;
     }
     else{
@@ -203,7 +231,8 @@ int check_monopoly(player *player){
 int build_houses(player *player, property *property){
     player->vault -= property->house_construction_cost;
     property -> no_of_buildings += 1;
-    printf("Built a house");
+    printf("Player %s built a house on %s\n", player->name, property->name);
+    printf("Construction cost: Rs.%d\n", property->house_construction_cost);
 }
 
 int bid(property *property){
