@@ -262,7 +262,7 @@ int bid(property *property){
             }
 
             else if(strcmp(players[i].name,"Conservative Banker") == 0){
-                if(players[i].vault - current_top_bid - 250 >= players[i].vault / 2 && current_top_bid -250 <= property->purchace_price){
+                if(players[i].vault - current_top_bid - 250 >= players[i].vault / 2 && current_top_bid  <= property->purchace_price + 250){
                         top_bidder = players[i];
                         current_top_bid += 250;
                         printf("Conservative Banker has placed a bid\n");
@@ -285,7 +285,7 @@ int bid(property *property){
             }
             
             else if(strcmp(players[i].name,"Opportunistic Trader") == 0){
-                 if(current_top_bid >= property->purchace_price / 100 * 120 && current_top_bid < property->purchace_price ){
+                 if(current_top_bid > property->purchace_price / 100 * 120 || current_top_bid > players[i].vault ){
                     bid_refusals++;
                 }
                 else{
