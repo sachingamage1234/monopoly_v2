@@ -7,6 +7,16 @@ typedef struct bank bank;
 typedef struct color_groups color_groups;
 typedef struct utility utility;
 typedef struct railway railway;
+typedef struct insuarance_term insuarance_term;
+typedef struct insuarance insuarance;
+typedef struct loan loan;
+
+typedef enum{
+    FIRE = 1,
+    FLOOD = 2,
+    RIOT = 3,
+    VANDALISM = 4
+}insuarance_protectors;
 
 struct color_groups{
     char color[10];
@@ -27,11 +37,19 @@ struct property{
         }owner;
         int owned;
         int mortaged;
-        int collateralized;
         int insuaranced;
         int no_of_buildings;
+        insuarance *insuarance;
         /// complete
 };
+
+struct loan{
+    int loan_round;
+    int initial_pass;
+    int loan_amount;
+    player *borrower;
+};
+
 
 struct player{
         char* name;
@@ -48,7 +66,8 @@ struct player{
         int no_of_properties;
         property *properties[22];
         utility *utilities[2];
-        railway *railway[2];
+        railway *railways[2];
+        loan *loan;
 };
 
 struct bank{
@@ -68,13 +87,15 @@ struct railway{
     };
 
 
-typedef struct{
+struct insuarance{
         char* name;
         int no_of_rounds;
         int max_no_of_rounds;
         char* policy;
-
-    }insuarance;
+        int compensation;
+        int premium;
+        insuarance_protectors protect_against[4];
+};
 
 struct utility{
         char* name;
@@ -111,6 +132,7 @@ typedef enum{
     Risk_Taker,
     Opportunistic_Trader
 }player_type;
+
 
 
 #endif

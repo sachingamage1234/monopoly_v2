@@ -18,7 +18,7 @@ property pettah = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property maradana = {
@@ -33,7 +33,7 @@ property maradana = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 // Group 2: Light Blue
@@ -49,7 +49,7 @@ property bambalapitiya = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property wellawatte = {
@@ -64,7 +64,7 @@ property wellawatte = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property mount_lavinia = {
@@ -79,7 +79,7 @@ property mount_lavinia = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 // Group 3: Pink
@@ -95,7 +95,7 @@ property nugegoda = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property maharagama = {
@@ -110,7 +110,7 @@ property maharagama = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property kottawa = {
@@ -125,7 +125,7 @@ property kottawa = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 // Group 4: Orange
@@ -141,7 +141,7 @@ property negombo = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property katunayake = {
@@ -156,7 +156,7 @@ property katunayake = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property ja_ela = {
@@ -171,7 +171,7 @@ property ja_ela = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 // Group 5: Red
@@ -187,7 +187,7 @@ property kandy_city = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property peradeniya = {
@@ -202,7 +202,7 @@ property peradeniya = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property katugastota = {
@@ -217,7 +217,7 @@ property katugastota = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 // Group 6: Yellow
@@ -233,7 +233,7 @@ property galle_fort = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property unawatuna = {
@@ -248,7 +248,7 @@ property unawatuna = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property hikkaduwa = {
@@ -263,7 +263,7 @@ property hikkaduwa = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 // Group 7: Green
@@ -279,7 +279,7 @@ property jaffna_town = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property nallur = {
@@ -294,7 +294,7 @@ property nallur = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property trincomalee = {
@@ -309,7 +309,7 @@ property trincomalee = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 // Group 8: Dark Blue
@@ -325,7 +325,7 @@ property nuwara_eliya = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 property galle_face = {
@@ -340,7 +340,7 @@ property galle_face = {
     .mortaged = 0,
     .insuaranced = 0,
     .no_of_buildings = 0,
-    .collateralized = 0
+     
 };
 
 
@@ -370,37 +370,37 @@ railway fort_railway = {
     .owner = NULL,
     .mortaged = 0,
     .insuaranced = 0,
-    .collateralized = 0
+     
 };
 
 railway kandy_railway = {
     .name = "Kandy Railway Station",
-    .purchace_price = 200,
+    .purchace_price = 2000,
     .mortage_value = 100,
     .owner = NULL,
     .mortaged = 0,
     .insuaranced = 0,
-    .collateralized = 0
+     
 };
 
 railway galle_railway = {
     .name = "Galle Railway Station",
-    .purchace_price = 200,
+    .purchace_price = 2500,
     .mortage_value = 100,
     .owner = NULL,
     .mortaged = 0,
     .insuaranced = 0,
-    .collateralized = 0
+     
 };
 
 railway jaffna_railway = {
     .name = "Jaffna Railway Station",
-    .purchace_price = 200,
+    .purchace_price = 2800,
     .mortage_value = 100,
     .owner = NULL,
     .mortaged = 0,
     .insuaranced = 0,
-    .collateralized = 0
+     
 };
 
 // 3. Insurance Instances
@@ -418,29 +418,29 @@ insuarance ceylinco_insurance = {
     .policy = "Comprehensive Protection Plan"
 };
 
-// 4. Utility Instances (CEB and NWSDB)
+// 4.  Instances (CEB and NWSDB)
 utility ceylon_electricity_board = {
     .name = "Ceylon Electricity Board",
-    .rental = "1 Utility owned: Rent = 4x dice roll | 2 Utilities owned: Rent = 10x dice roll",
-    .purchace_price = 150,
+    .rental = "1  owned: Rent = 4x dice roll | 2 Utilities owned: Rent = 10x dice roll",
+    .purchace_price = 2150,
     .mortage_value = 75,
     .owned = 0,
     .owner = NULL,
     .mortaged = 0,
     .insuaranced = 0,
-    .collateralized = 0
+     
 };
 
 utility water_board = {
     .name = "National Water Supply and Drainage Board",
     .rental = "1 Utility owned: Rent = 4x dice roll | 2 Utilities owned: Rent = 10x dice roll",
-    .purchace_price = 150,
+    .purchace_price = 1000,
     .mortage_value = 75,
     .owned = 0,
     .owner = NULL,
     .mortaged = 0,
     .insuaranced = 0,
-    .collateralized = 0
+     
 };
 
 cell board[40] = {
@@ -568,6 +568,21 @@ cell board[40] = {
 //move players
 int move_player(player* player, int steps){
     if(!player->jailed){
+
+        //Every time the player passes the cell 38 increases the laon round number by 1
+        if(player->position + steps > 38){
+            if(player->loan->initial_pass){
+                printf("Passing just after taking the loan");
+            }else{
+                player->loan->loan_round += 1;
+                player->loan->initial_pass = 0;
+                if(player->loan->loan_round >= 17){
+                    printf("%d more rounds to end the loan\n", 20 - player->loan->loan_round);
+                }
+            }
+
+        }
+
         if(player -> position + steps > 39){
         player -> vault += 2000;
         player -> position = (player -> position + steps) - 40;
@@ -575,15 +590,6 @@ int move_player(player* player, int steps){
         printf("\n %s passed GO \n", player -> name);
         printf("Collected Rs.2000\n");
         printf("Current Balance: %d \n", player -> vault);
-
-        //Increase the loan round when player passes GO
-        if(player->loan_round != -1){
-            player->loan_round += 1;
-        }
-
-        if(player->loan_round == 20){
-
-        }
 
         return player -> position;
         }
@@ -597,4 +603,10 @@ int move_player(player* player, int steps){
         return 0;
     }
     
+}
+
+
+
+int make_bankrupt(player *player){
+
 }

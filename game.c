@@ -120,7 +120,7 @@ for(int i = 0; i < size; i++){
 
 
 int add_property_to_list(player* player, property *property){
-    if(player->no_of_properties > 10){
+    if(player->no_of_properties > 22){
         printf("Trying to buy an invalid property\n");
         return 0;
     }
@@ -180,7 +180,7 @@ int buy_utility(player *player, utility *utility){
     player->vault -= utility->purchace_price;
     utility->owner = player;
     utility->owned = 1;
-    player->no_of_utilities++;
+    player->no_of_utilities = player->no_of_utilities + 1;
 }
 
 int buy_railway(player *player, railway *railway){
@@ -285,7 +285,7 @@ int bid(property *property){
             }
             
             else if(strcmp(players[i].name,"Opportunistic Trader") == 0){
-                 if(current_top_bid > property->purchace_price / 100 * 120 || current_top_bid > players[i].vault ){
+                 if(current_top_bid > property->purchace_price / 100 * 120 || current_top_bid > players[i].vault || current_top_bid > property->purchace_price - 250){
                     bid_refusals++;
                 }
                 else{
@@ -315,6 +315,33 @@ int bid(property *property){
 int get_loan(player *player, int loan_amount){
     player->vault += loan_amount;
     player->no_of_loans += 1;
+    loan loan = {
+        .loan_amount = loan_amount,
+        .initial_pass = 1,
+        .borrower = player,
+        .loan_round = 0
+    };
+    player->loan = &loan;
     printf("Player %s got a loan of Rs.%d\n", player->name, loan_amount);
     printf("Current balance: Rs.%d\n", player->vault);
+}
+
+
+int foreclose(player *player){
+    for(int i = 0; i < 40; i++){
+
+        if(board[i].ptr.property->mortaged == 1){
+            board[i].ptr.property->owner.bank = board[38].ptr.bank;
+        }
+
+        if(board[i].ptr.utility->mortaged == 0 ){
+            board[i].ptr.utility->mortaged = board[38].ptr.bank;
+        }
+
+        if(board[i].ptr.railway->mortaged == 0){
+            board[i].ptr.railway->mortaged = board[38].ptr.bank;
+        }
+    }
+        
+    
 }
