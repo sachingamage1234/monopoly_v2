@@ -178,14 +178,14 @@ int buy_property(player *player, property *property, int auction_price, int just
 
 int buy_utility(player *player, utility *utility){
     player->vault -= utility->purchace_price;
-    utility->owner = player;
+    utility->owner.player = player;
     utility->owned = 1;
     player->no_of_utilities = player->no_of_utilities + 1;
 }
 
 int buy_railway(player *player, railway *railway){
     player->vault -= railway->purchace_price;
-    railway->owner = player;
+    railway->owner.player = player;
     railway->owned = 1;
     player->no_of_railways++;
 }
@@ -321,7 +321,7 @@ int get_loan(player *player, int loan_amount){
         .borrower = player,
         .loan_round = 0
     };
-    player->loan = &loan;
+    player->loan = loan;
     printf("Player %s got a loan of Rs.%d\n", player->name, loan_amount);
     printf("Current balance: Rs.%d\n", player->vault);
 }
@@ -330,18 +330,37 @@ int get_loan(player *player, int loan_amount){
 int foreclose(player *player){
     for(int i = 0; i < 40; i++){
 
-        if(board[i].ptr.property->mortaged == 1){
-            board[i].ptr.property->owner.bank = board[38].ptr.bank;
-        }
-
-        if(board[i].ptr.utility->mortaged == 0 ){
-            board[i].ptr.utility->mortaged = board[38].ptr.bank;
-        }
-
-        if(board[i].ptr.railway->mortaged == 0){
-            board[i].ptr.railway->mortaged = board[38].ptr.bank;
+        if(strcmp(board[i].type, "Property") == 0 && board[i].ptr.property->owner.player == player){
+            if(board[i].ptr.property->mortaged == 1){
+                board[i].ptr.property->owner.bank = board[38].ptr.bank;
+                board[i].ptr.property->owned = 0;
+            }
+        }else if(strcmp(board[i].type, "Utility") == 0 && board[i].ptr.utility->owner.player == player){
+             if(board[i].ptr.utility->mortaged == 1 ){
+                board[i].ptr.utility->owner.bank = board[38].ptr.bank;
+                board[i].ptr.utility->owned = 0;
+            }
+        }else if(strcmp(board[i].type, "Railway") == 0 && board[i].ptr.railway->owner.player == player){
+            if(board[i].ptr.railway->mortaged == 1){
+                board[i].ptr.railway->owner.bank = board[38].ptr.bank;
+                board[i].ptr.railway->owned = 0;
+            }
         }
     }
         
+    player->loan.loan_amount = 0;
+    player->loan.loan_round = 0;
+    player->loan.initial_pass = 0;
+    player->loan.borrower = NULL;
     
+}
+
+
+int jail_decision(player *player){
+    player->jail_rounds += 1;
+    printf("Player %s is in the %d th turn in the game\n", player->name, player->jail_rounds);
+    if(player->jail_rounds == 3){
+        printf("Player %s released from the Jail\n", player->name);
+        player->jailed = 0;
+    }
 }

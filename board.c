@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "game.h"
 #include "types.h"
 #include "board.h"
 
@@ -364,8 +365,7 @@ bank bank_of_ceylon = {
 // 2. Railway Instances (4 Stations)
 railway fort_railway = {
     .name = "Colombo Fort Railway Station",
-    .purchace_price = 200,
-    .mortage_value = 100,
+    .purchace_price = 1500,
     .owned = 0,
     .owner = NULL,
     .mortaged = 0,
@@ -375,8 +375,7 @@ railway fort_railway = {
 
 railway kandy_railway = {
     .name = "Kandy Railway Station",
-    .purchace_price = 2000,
-    .mortage_value = 100,
+    .purchace_price = 1500,
     .owner = NULL,
     .mortaged = 0,
     .insuaranced = 0,
@@ -385,8 +384,7 @@ railway kandy_railway = {
 
 railway galle_railway = {
     .name = "Galle Railway Station",
-    .purchace_price = 2500,
-    .mortage_value = 100,
+    .purchace_price = 1500,
     .owner = NULL,
     .mortaged = 0,
     .insuaranced = 0,
@@ -395,8 +393,7 @@ railway galle_railway = {
 
 railway jaffna_railway = {
     .name = "Jaffna Railway Station",
-    .purchace_price = 2800,
-    .mortage_value = 100,
+    .purchace_price = 1500,
     .owner = NULL,
     .mortaged = 0,
     .insuaranced = 0,
@@ -422,8 +419,7 @@ insuarance ceylinco_insurance = {
 utility ceylon_electricity_board = {
     .name = "Ceylon Electricity Board",
     .rental = "1  owned: Rent = 4x dice roll | 2 Utilities owned: Rent = 10x dice roll",
-    .purchace_price = 2150,
-    .mortage_value = 75,
+    .purchace_price = 1500,
     .owned = 0,
     .owner = NULL,
     .mortaged = 0,
@@ -434,8 +430,7 @@ utility ceylon_electricity_board = {
 utility water_board = {
     .name = "National Water Supply and Drainage Board",
     .rental = "1 Utility owned: Rent = 4x dice roll | 2 Utilities owned: Rent = 10x dice roll",
-    .purchace_price = 1000,
-    .mortage_value = 75,
+    .purchace_price = 1500,
     .owned = 0,
     .owner = NULL,
     .mortaged = 0,
@@ -571,13 +566,13 @@ int move_player(player* player, int steps){
 
         //Every time the player passes the cell 38 increases the laon round number by 1
         if(player->position + steps > 38){
-            if(player->loan->initial_pass){
+            if(player->loan.initial_pass){
                 printf("Passing just after taking the loan");
             }else{
-                player->loan->loan_round += 1;
-                player->loan->initial_pass = 0;
-                if(player->loan->loan_round >= 17){
-                    printf("%d more rounds to end the loan\n", 20 - player->loan->loan_round);
+                player->loan.loan_round += 1;
+                player->loan.initial_pass = 0;
+                if(player->loan.loan_round >= 17){
+                    printf("%d more rounds to end the loan\n", 20 - player->loan.loan_round);
                 }
             }
 
@@ -600,7 +595,7 @@ int move_player(player* player, int steps){
     }
     else{
         printf("Player is in the jail, can't move\n");
-        return 0;
+        jail_decision(player);
     }
     
 }

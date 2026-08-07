@@ -16,5 +16,6 @@ int buy_railway(player *player, railway *railway);
 int bid(property *property);
 int check_monopoly(player *player);
 int get_loan(player *player, int loan_amount);
+int jail_decision(player *player);
 
 #endif

@@ -20,7 +20,8 @@ player players[4] = {
     {"DarkBlue", 0}}, .loan_round = -1, 
     .properties={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     .utilities={0,0},
-    .railways={0,0}},
+    .railways={0,0},
+    .jail_rounds = 0},
 
     {"Conservative Banker", 1000, 0, 0, 6,
     {{"Brown", 0},
@@ -33,7 +34,8 @@ player players[4] = {
     {"DarkBlue", 0}}, .loan_round = -1, 
     .properties={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     .utilities={0,0},
-    .railways={0,0}},
+    .railways={0,0},
+    .jail_rounds = 0},
 
     {"Risk Taker", 1000, 0, 0, 12,
     {{"Brown", 0},
@@ -46,7 +48,8 @@ player players[4] = {
     {"DarkBlue", 0}}, .loan_round = -1, 
     .properties={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     .utilities={0,0},
-    .railways={0,0}},
+    .railways={0,0},
+    .jail_rounds = 0},
 
     {"Opportunistic Trader", 1000, 0, 0, 8,
     {{"Brown", 0},
@@ -59,7 +62,8 @@ player players[4] = {
     {"DarkBlue", 0}}, .loan_round = -1, 
     .properties={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     .utilities={0,0},
-    .railways={0,0}}
+    .railways={0,0},
+    .jail_rounds = 0}
 };
 
 
@@ -114,16 +118,16 @@ int aggresive_trader_decision(player *player, cell *cell, int auction_price){
             printf("NOt owned by anyone yet!\n");
            }
         else{
-            if(cell->ptr.utility->owner->no_of_utilities == 1){
+            if( cell->ptr.utility->owner.player->no_of_utilities == 1){
                 int rent = 4 * (player->dice_value);
                 player->vault -= rent;
-                cell->ptr.utility->owner->vault += rent;
+                 cell->ptr.utility->owner.player->vault += rent;
                 printf("Payed utility rental of %d for the utility %s", rent, cell->ptr.utility->name);
             }
-            else if(cell->ptr.utility->owner->no_of_utilities == 2){
+            else if( cell->ptr.utility->owner.player->no_of_utilities == 2){
                 int rent = 10 * (player->dice_value);
                 player->vault -= rent;
-                cell->ptr.utility->owner->vault += rent;
+                 cell->ptr.utility->owner.player->vault += rent;
                 printf("Payed utility rental of %d for the utility %s", rent, cell->ptr.utility->name);
             }
         }
@@ -141,7 +145,7 @@ int aggresive_trader_decision(player *player, cell *cell, int auction_price){
             }
 
             player->vault -= rent;
-            cell->ptr.railway->owner->vault += rent;
+            cell->ptr.railway->owner.player->vault += rent;
             printf("Payed railway rental of %d for the railway %s", rent, cell->ptr.railway->name);
         }
         
@@ -150,7 +154,7 @@ int aggresive_trader_decision(player *player, cell *cell, int auction_price){
         if(strcmp(cell -> name,"Go To Jail") == 0){
             player->position = 10;
             player->jailed = 1;
-            printf("PLayer conservative banker was jailed\n");
+            printf("Player conservative banker was jailed\n");
         }
     }
     
@@ -205,16 +209,16 @@ int conservative_banker_decision(player *player, cell *cell){
            }
         }
         else{
-            if(cell->ptr.utility->owner->no_of_utilities == 1){
+            if( cell->ptr.utility->owner.player->no_of_utilities == 1){
                 int rent = 4 * (player->dice_value);
                 player->vault -= rent;
-                cell->ptr.utility->owner->vault += rent;
+                 cell->ptr.utility->owner.player->vault += rent;
                 printf("Payed utility rental of %d for the utility %s", rent, cell->ptr.utility->name);
             }
-            else if(cell->ptr.utility->owner->no_of_utilities == 2){
+            else if( cell->ptr.utility->owner.player->no_of_utilities == 2){
                 int rent = 10 * (player->dice_value);
                 player->vault -= rent;
-                cell->ptr.utility->owner->vault += rent;
+                 cell->ptr.utility->owner.player->vault += rent;
                 printf("Payed utility rental of %d for the utility %s", rent, cell->ptr.utility->name);
             }
         }
@@ -237,7 +241,7 @@ int conservative_banker_decision(player *player, cell *cell){
             }
 
             player->vault -= rent;
-            cell->ptr.railway->owner->vault += rent;
+            cell->ptr.railway->owner.player->vault += rent;
             printf("Payed railway rental of %d for the railway %s", rent, cell->ptr.railway->name);
         }
         
@@ -293,24 +297,23 @@ int risk_taker_decision(player *player, cell *cell){
             //Iterate over the board and chaeck whether it is a property, utility or a railway
             //If it isowned by the player , add it to the loan amount
             //Since the risk taker takes the maximum loan amount possible, take the loan to the full price
-            for(int i = 0; i < sizeof(player->properties) / sizeof(player->properties[1]); i++){
-                if(board[i].ptr.property->mortaged == 0){
-                    loan_amount += board[i].ptr.property->purchace_price;
-                    board[i].ptr.property->mortaged = 1;
+            for(int i = 0; i < 40; i++){
+                if((strcmp(board[i].type, "Property") == 0) && board[i].ptr.property->owner.player == player){
+                    if(board[i].ptr.property->mortaged == 0){
+                        loan_amount += board[i].ptr.property->purchace_price;
+                        board[i].ptr.property->mortaged = 1;
+                }}
+                else if(strcmp(board[i].type, "Utility") == 0 && board[i].ptr.utility->owner.player == player){
+                    if(board[i].ptr.utility->mortaged == 0 ){
+                        loan_amount += board[i].ptr.utility->purchace_price;
+                        board[i].ptr.utility->mortaged = 1;
+                     }
                 }
-            }
-
-            for(int i = 0; i < sizeof(player->utilities) / sizeof(player->utilities[1]); i++){
-                if(board[i].ptr.utility->mortaged == 0 ){
-                    loan_amount += board[i].ptr.utility->purchace_price;
-                    board[i].ptr.utility->mortaged = 1;
-                }
-            }
-            
-            for(int i = 0; i < sizeof(player->railways) / sizeof(player->railways[1]); i++){
-                if(board[i].ptr.railway->mortaged == 0){
-                    loan_amount += board[i].ptr.railway->purchace_price;
-                    board[i].ptr.railway->mortaged = 1;
+                else if((strcmp(board[i].type, "Railway") == 0) && board[i].ptr.railway->owner.player == player){
+                    if(board[i].ptr.railway->mortaged == 0){
+                        loan_amount += board[i].ptr.railway->purchace_price;
+                        board[i].ptr.railway->mortaged = 1;
+                    }
                 }
             }
               get_loan(player, loan_amount * 3 / 8);   
@@ -326,16 +329,16 @@ int risk_taker_decision(player *player, cell *cell){
             printf("NOt owned by anyone yet!\n");
            }
         else{
-            if(cell->ptr.utility->owner->no_of_utilities == 1){
+            if( cell->ptr.utility->owner.player->no_of_utilities == 1){
                 int rent = 4 * (player->dice_value);
                 player->vault -= rent;
-                cell->ptr.utility->owner->vault += rent;
+                 cell->ptr.utility->owner.player->vault += rent;
                 printf("Payed utility rental of %d for the utility %s", rent, cell->ptr.utility->name);
             }
-            else if(cell->ptr.utility->owner->no_of_utilities == 2){
+            else if( cell->ptr.utility->owner.player->no_of_utilities == 2){
                 int rent = 10 * (player->dice_value);
                 player->vault -= rent;
-                cell->ptr.utility->owner->vault += rent;
+                 cell->ptr.utility->owner.player->vault += rent;
                 printf("Payed utility rental of %d for the utility %s", rent, cell->ptr.utility->name);
             }
         }
@@ -356,7 +359,7 @@ int risk_taker_decision(player *player, cell *cell){
             }
 
             player->vault -= rent;
-            cell->ptr.railway->owner->vault += rent;
+            cell->ptr.railway->owner.player->vault += rent;
             printf("Payed railway rental of %d for the railway %s", rent, cell->ptr.railway->name);
         }
     } 

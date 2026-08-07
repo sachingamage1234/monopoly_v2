@@ -60,6 +60,7 @@ struct player{
         color_groups player_color_list[8];
         int position;
         int jailed;
+        int jail_rounds;
         int loan_round;
         int no_of_utilities;
         int no_of_railways;
@@ -67,7 +68,7 @@ struct player{
         property *properties[22];
         utility *utilities[2];
         railway *railways[2];
-        loan *loan;
+        loan loan;
 };
 
 struct bank{
@@ -78,9 +79,11 @@ struct bank{
 struct railway{
         char* name;
         int purchace_price;
-        int mortage_value;
         int owned;
-        player* owner;
+        union {
+            bank *bank;
+            player *player;
+        }owner;
         int mortaged;
         int insuaranced;
         int collateralized;
@@ -101,9 +104,11 @@ struct utility{
         char* name;
         char* rental;  // one utility, rent -> 4 times the dice roll, two utilities, rent -> 10 times the dice roll
         int purchace_price;
-        int mortage_value;
         int owned;
-        player* owner;
+        union {
+            bank *bank;
+            player *player;
+        }owner;
         int mortaged;
         int insuaranced;
         int collateralized;
